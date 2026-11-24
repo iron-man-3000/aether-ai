@@ -2,6 +2,7 @@
   "name": "aether-ai",
   "version": "1.0.0",
   "description": "Aether AI — Minimalist, high-performance chatbot ecosystem for Web, Chrome, and Firefox",
+  "homepage": "https://iron-man-3000.github.io/aether-ai/",
   "type": "module",
   "main": "server/server.js",
   "scripts": {

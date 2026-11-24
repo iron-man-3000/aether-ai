@@ -1,5 +1,7 @@
 # Aether AI — Minimalist AI Chatbot Ecosystem
 
+🌐 **Live Website:** [https://iron-man-3000.github.io/aether-ai/](https://iron-man-3000.github.io/aether-ai/)
+
 > **Pure Intelligence. Distilled.**  
 > A high-performance, monochromatic AI chatbot inspired by modern minimalist design. Runs seamlessly as a **Website**, a **Google Chrome Extension (Manifest V3)**, and a **Mozilla Firefox Extension (WebExtensions)**, all sharing one unified core logic, design system, and storage abstraction.
 
