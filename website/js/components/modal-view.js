@@ -16,6 +16,7 @@ export class ModalView {
     this.styleSelect = $('#setting-style');
     this.customInstructions = $('#setting-custom-instructions');
     this.serverUrlInput = $('#setting-server-url');
+    this.apiKeyInput = $('#setting-api-key');
 
     // Memory Modal elements
     this.memoryModal = $('#memory-modal');
@@ -36,6 +37,7 @@ export class ModalView {
       if (settings.style) this.styleSelect.value = settings.style;
       if (settings.customInstructions) this.customInstructions.value = settings.customInstructions;
       if (settings.serverUrl) this.serverUrlInput.value = settings.serverUrl;
+      if (settings.apiKey) this.apiKeyInput.value = settings.apiKey;
       this.settingsModal.classList.add('is-open');
     });
 
@@ -47,11 +49,15 @@ export class ModalView {
       const newSettings = {
         style: this.styleSelect.value,
         customInstructions: this.customInstructions.value.trim(),
-        serverUrl: this.serverUrlInput.value.trim()
+        serverUrl: this.serverUrlInput.value.trim(),
+        apiKey: this.apiKeyInput.value.trim()
       };
       this.engine.currentStyle = newSettings.style;
       if (newSettings.serverUrl) {
         this.engine.apiClient.setBaseUrl(newSettings.serverUrl);
+      }
+      if (newSettings.apiKey) {
+        this.engine.apiClient.setApiKey(newSettings.apiKey);
       }
       await this.engine.storage.saveSettings(newSettings);
       this.settingsModal.classList.remove('is-open');

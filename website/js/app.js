@@ -26,6 +26,11 @@ async function initApp() {
 
   // Initialize engine state & load persisted conversations
   await chatEngine.init();
+  const settings = await storageAdapter.getSettings();
+  if (settings) {
+    if (settings.apiKey) apiClient.setApiKey(settings.apiKey);
+    if (settings.serverUrl) apiClient.setBaseUrl(settings.serverUrl);
+  }
   await sidebar.refreshList();
 
   console.log('Aether AI Website initialized successfully.');

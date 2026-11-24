@@ -224,7 +224,12 @@
         </div>
         <div class="settings-group" style="margin-top: var(--space-4);">
           <label class="settings-label" for="setting-server-url">Backend Server URL</label>
-          <input type="text" id="setting-server-url" class="input" placeholder="http://localhost:3000 (leave blank for default)">
+          <input type="text" id="setting-server-url" class="input" placeholder="http://localhost:3000 (leave blank for direct/local)">
+        </div>
+        <div class="settings-group" style="margin-top: var(--space-4);">
+          <label class="settings-label" for="setting-api-key">API Key (Groq / OpenAI)</label>
+          <input type="password" id="setting-api-key" class="input" placeholder="gsk_... or sk-...">
+          <span class="text-xs text-secondary" style="margin-top: 4px; display: block;">Saved locally in your browser for direct serverless connections.</span>
         </div>
       </div>
       <div class="modal-footer">

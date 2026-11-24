@@ -1,14 +1,19 @@
 /**
  * Shared API Client
- * Connects to the Aether backend and decodes Server-Sent Events (SSE) streaming chunks
+ * Connects to the Aether backend or operates serverlessly on GitHub Pages using direct OpenAI/Groq SSE
  */
 export class ApiClient {
   constructor(baseUrl = '') {
     this.baseUrl = baseUrl.replace(/\/$/, '');
+    this.directApiKey = '';
   }
 
   setBaseUrl(url) {
     this.baseUrl = url.replace(/\/$/, '');
+  }
+
+  setApiKey(key) {
+    this.directApiKey = key ? key.trim() : '';
   }
 
   /**
@@ -27,8 +32,19 @@ export class ApiClient {
     onSources,
     onArtifact
   }) {
-    const url = `${this.baseUrl}/api/chat`;
+    const isDirectServerless = !this.baseUrl && this.directApiKey;
 
+    if (isDirectServerless) {
+      return this._streamDirect({
+        messages,
+        model,
+        systemPrompt,
+        signal,
+        onToken
+      });
+    }
+
+    const url = `${this.baseUrl}/api/chat`;
     const payload = {
       messages,
       model,
@@ -51,10 +67,14 @@ export class ApiClient {
         signal
       });
     } catch (err) {
-      if (err.name === 'AbortError') {
-        throw err;
+      if (err.name === 'AbortError') throw err;
+
+      // If backend fails and we have a direct API key, fallback to direct streaming
+      if (this.directApiKey) {
+        return this._streamDirect({ messages, model, systemPrompt, signal, onToken });
       }
-      throw new Error(`Failed to connect to Aether server: ${err.message}`);
+
+      throw new Error(`Failed to connect to Aether server (${url}). If running on GitHub Pages, add your API Key or backend URL in Settings.`);
     }
 
     if (!response.ok) {
@@ -62,17 +82,53 @@ export class ApiClient {
       try {
         const errorJson = await response.json();
         if (errorJson.error) errorMsg = errorJson.error;
-      } catch {
-        // ignore fallback
-      }
+      } catch {}
       throw new Error(errorMsg);
     }
 
-    if (!response.body) {
-      throw new Error('ReadableStream not supported by this browser/environment.');
+    return this._readSSEStream(response.body, onToken, onSources, onArtifact);
+  }
+
+  async _streamDirect({ messages, model, systemPrompt, signal, onToken }) {
+    const isGroq = this.directApiKey.startsWith('gsk_');
+    const apiUrl = isGroq
+      ? 'https://api.groq.com/openai/v1/chat/completions'
+      : 'https://api.openai.com/v1/chat/completions';
+
+    const targetModel = isGroq
+      ? (model === 'gpt-4o-mini' ? 'openai/gpt-oss-20b' : 'openai/gpt-oss-120b')
+      : (model || 'gpt-4o');
+
+    const formattedMessages = [];
+    if (systemPrompt) formattedMessages.push({ role: 'system', content: systemPrompt });
+    for (const m of messages) formattedMessages.push({ role: m.role, content: m.content });
+
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.directApiKey}`
+      },
+      body: JSON.stringify({
+        model: targetModel,
+        messages: formattedMessages,
+        stream: true
+      }),
+      signal
+    });
+
+    if (!response.ok) {
+      const err = await response.text();
+      throw new Error(`AI API error (${response.status}): ${err}`);
     }
 
-    const reader = response.body.getReader();
+    return this._readSSEStream(response.body, onToken);
+  }
+
+  async _readSSEStream(stream, onToken, onSources, onArtifact) {
+    if (!stream) throw new Error('ReadableStream not supported.');
+
+    const reader = stream.getReader();
     const decoder = new TextDecoder('utf-8');
     let buffer = '';
     let fullResponseText = '';
@@ -84,39 +140,28 @@ export class ApiClient {
 
         buffer += decoder.decode(value, { stream: true });
         const lines = buffer.split('\n');
-        buffer = lines.pop() || ''; // Keep unfinished line in buffer
+        buffer = lines.pop() || '';
 
         for (const line of lines) {
           const trimmed = line.trim();
-          if (!trimmed || trimmed.startsWith(':')) continue; // Ignore SSE comments/pings
+          if (!trimmed || trimmed.startsWith(':')) continue;
 
           if (trimmed.startsWith('data: ')) {
             const dataStr = trimmed.slice(6);
-            if (dataStr === '[DONE]') {
-              return fullResponseText;
-            }
+            if (dataStr === '[DONE]') return fullResponseText;
 
             try {
               const parsed = JSON.parse(dataStr);
-              if (parsed.text) {
-                fullResponseText += parsed.text;
-                if (onToken) onToken(parsed.text, fullResponseText);
+              const textChunk = parsed.text || parsed.choices?.[0]?.delta?.content;
+              if (textChunk) {
+                fullResponseText += textChunk;
+                if (onToken) onToken(textChunk, fullResponseText);
               }
-              if (parsed.sources && onSources) {
-                onSources(parsed.sources);
-              }
-              if (parsed.artifact && onArtifact) {
-                onArtifact(parsed.artifact);
-              }
-              if (parsed.error) {
-                throw new Error(parsed.error);
-              }
-            } catch (jsonErr) {
-              // If not JSON, it might be raw text
-              if (!trimmed.includes('[DONE]')) {
-                fullResponseText += dataStr;
-                if (onToken) onToken(dataStr, fullResponseText);
-              }
+              if (parsed.sources && onSources) onSources(parsed.sources);
+              if (parsed.artifact && onArtifact) onArtifact(parsed.artifact);
+              if (parsed.error) throw new Error(parsed.error);
+            } catch (err) {
+              if (err.message && !err.message.includes('JSON')) throw err;
             }
           }
         }
@@ -128,9 +173,6 @@ export class ApiClient {
     return fullResponseText;
   }
 
-  /**
-   * Upload and process documents
-   */
   async uploadFile(file, signal) {
     const formData = new FormData();
     formData.append('file', file);
@@ -149,10 +191,15 @@ export class ApiClient {
     return response.json();
   }
 
-  /**
-   * Fetch active server models
-   */
   async getModels() {
+    if (!this.baseUrl) {
+      return {
+        models: [
+          { id: 'gpt-4o', name: 'Aether 4o', isDefault: true },
+          { id: 'gpt-4o-mini', name: 'Aether Flash', isDefault: false }
+        ]
+      };
+    }
     const res = await fetch(`${this.baseUrl}/api/models`);
     if (!res.ok) throw new Error('Failed to fetch models');
     return res.json();
