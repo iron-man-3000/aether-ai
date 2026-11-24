@@ -1,0 +1,312 @@
+/**
+ * Reusable UI Components for Aether AI
+ * Adheres strictly to the minimalist black-and-white aesthetic
+ */
+
+/* -------------------------------------------------------------------------
+ * Button System
+ * ------------------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: 1;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  transition: background-color var(--transition-fast),
+              color var(--transition-fast),
+              border-color var(--transition-fast),
+              opacity var(--transition-fast),
+              transform var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* Primary Button: Solid White with Obsidian Black text */
+.btn-primary {
+  background-color: var(--color-accent);
+  color: var(--color-accent-inverse);
+  border-color: var(--color-accent);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #EAEAEA;
+  border-color: #EAEAEA;
+}
+
+/* Secondary Button: Subtle Surface with Border */
+.btn-secondary {
+  background-color: var(--color-surface-secondary);
+  color: var(--color-text-primary);
+  border-color: var(--color-border);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--color-surface-elevated);
+  border-color: var(--color-border-focus);
+}
+
+/* Ghost / Subdued Button */
+.btn-ghost {
+  background-color: transparent;
+  color: var(--color-text-secondary);
+}
+
+.btn-ghost:hover:not(:disabled) {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+/* Danger Button */
+.btn-danger {
+  background-color: transparent;
+  color: var(--color-danger);
+  border-color: rgba(229, 72, 77, 0.3);
+}
+
+.btn-danger:hover:not(:disabled) {
+  background-color: var(--color-danger-subtle);
+  border-color: var(--color-danger);
+}
+
+/* Icon-only Button */
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: var(--radius-sm);
+  color: var(--color-text-secondary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-icon:hover:not(:disabled) {
+  background-color: var(--color-surface-hover);
+  color: var(--color-text-primary);
+}
+
+.btn-icon-sm {
+  width: 26px;
+  height: 26px;
+}
+
+.btn-icon-lg {
+  width: 40px;
+  height: 40px;
+}
+
+/* -------------------------------------------------------------------------
+ * Input & Textarea Elements
+ * ------------------------------------------------------------------------- */
+.input {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  background-color: var(--color-surface-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.input:focus {
+  border-color: var(--color-border-focus);
+  background-color: var(--color-surface-elevated);
+}
+
+/* -------------------------------------------------------------------------
+ * Cards & Elevated Containers
+ * ------------------------------------------------------------------------- */
+.card {
+  background-color: var(--color-surface-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  transition: border-color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.card-interactive {
+  cursor: pointer;
+}
+
+.card-interactive:hover {
+  background-color: var(--color-surface-elevated);
+  border-color: #444444;
+}
+
+/* -------------------------------------------------------------------------
+ * Badge / Pill Indicators
+ * ------------------------------------------------------------------------- */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-wide);
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface-elevated);
+  color: var(--color-text-secondary);
+  border: 1px solid var(--color-border);
+}
+
+.badge-active {
+  background-color: rgba(255, 255, 255, 0.12);
+  color: var(--color-text-primary);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* -------------------------------------------------------------------------
+ * Dropdowns & Menus
+ * ------------------------------------------------------------------------- */
+.menu {
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-1);
+  min-width: 180px;
+  z-index: var(--z-modal);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.menu-item:hover {
+  background-color: var(--color-surface-hover);
+}
+
+.menu-item.danger {
+  color: var(--color-danger);
+}
+
+.menu-item.danger:hover {
+  background-color: var(--color-danger-subtle);
+}
+
+.menu-divider {
+  height: 1px;
+  background-color: var(--color-border);
+  margin: var(--space-1) 0;
+}
+
+/* -------------------------------------------------------------------------
+ * Tooltip Styles
+ * ------------------------------------------------------------------------- */
+[data-tooltip] {
+  position: relative;
+}
+
+[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%) translateY(4px);
+  background-color: var(--color-surface-elevated);
+  color: var(--color-text-primary);
+  font-size: var(--font-size-xs);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--color-border);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+  z-index: var(--z-tooltip);
+  box-shadow: var(--shadow-sm);
+}
+
+[data-tooltip]:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* -------------------------------------------------------------------------
+ * Modal & Backdrop
+ * ------------------------------------------------------------------------- */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  z-index: var(--z-modal);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 280ms cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 280ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-backdrop.is-open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal-content {
+  background-color: var(--color-surface-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-modal);
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  transform: scale(0.92) translateY(8px);
+  opacity: 0;
+  transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1),
+              opacity 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-backdrop.is-open .modal-content {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.modal-body {
+  padding: var(--space-6);
+}
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--color-border);
+}

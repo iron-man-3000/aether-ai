@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Aether AI — Pure intelligence, distilled. A minimalist, production-grade AI chatbot.">
+  <title>Aether AI</title>
+  
+  <!-- Shared Design Tokens & Component Styles -->
+  <link rel="stylesheet" href="../shared/css/variables.css">
+  <link rel="stylesheet" href="../shared/css/reset.css">
+  <link rel="stylesheet" href="../shared/css/typography.css">
+  <link rel="stylesheet" href="../shared/css/components.css">
+
+  <!-- Website Layout & Views Styles -->
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/sidebar.css">
+  <link rel="stylesheet" href="css/chat-area.css">
+  <link rel="stylesheet" href="css/input-bar.css">
+  <link rel="stylesheet" href="css/artifacts-panel.css">
+</head>
+<body>
+
+  <div id="app" class="app-container">
+    <!-- Sidebar Overlay for Mobile -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Left Sidebar -->
+    <aside id="sidebar" class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand">
+          <div class="brand-logo">
+            <img src="../shared/assets/logo.svg" alt="Aether AI Logo" width="28" height="28">
+          </div>
+          <span class="brand-name">Aether</span>
+        </div>
+        <button id="new-chat-btn" class="btn btn-secondary btn-sm" title="Start a new chat (Cmd/Ctrl + K)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span>New Chat</span>
+        </button>
+      </div>
+
+      <!-- Search conversations -->
+      <div class="sidebar-search">
+        <input type="text" id="conversation-search" class="input input-sm" placeholder="Search conversations...">
+      </div>
+
+      <!-- Conversation List (Grouped by Date) -->
+      <nav id="conversation-list" class="conversation-list" aria-label="Conversation History">
+        <!-- Rendered dynamically by sidebar-view.js -->
+      </nav>
+
+      <!-- Sidebar Footer -->
+      <div class="sidebar-footer">
+        <button id="open-memory-btn" class="sidebar-nav-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          <span>Memory & Context</span>
+        </button>
+        <button id="open-settings-btn" class="sidebar-nav-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          <span>Settings</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Area -->
+    <main class="main-content">
+      <!-- Top Navigation Bar -->
+      <header class="chat-header">
+        <div class="header-left">
+          <button id="toggle-sidebar-btn" class="btn btn-icon" title="Toggle sidebar">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+          </button>
+          
+          <!-- Mode & Model Selectors in Header -->
+          <div class="model-selector-wrapper">
+            <select id="model-select" class="badge-select">
+              <option value="gpt-4o" selected>Aether 4o (Flagship)</option>
+              <option value="gpt-4o-mini">Aether Flash</option>
+              <option value="o3-mini">Aether Reasoning</option>
+            </select>
+            <select id="mode-select" class="badge-select">
+              <option value="general" selected>General Assistant</option>
+              <option value="coding">Coding Assistant</option>
+              <option value="study">Study Tutor</option>
+              <option value="writing">Writing Assistant</option>
+              <option value="research">Research Assistant</option>
+              <option value="creative">Creative Assistant</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <button id="toggle-artifacts-btn" class="btn btn-ghost btn-sm" title="Toggle workspace preview panel">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="15" y1="3" x2="15" y2="21"/></svg>
+            <span>Workspace</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Chat Viewport -->
+      <section id="chat-viewport" class="chat-viewport">
+        <!-- Welcome Screen (Visible on empty conversation) -->
+        <div id="welcome-screen" class="welcome-screen">
+          <div class="welcome-hero">
+            <div class="welcome-logo">
+              <img src="../shared/assets/logo.svg" alt="Aether AI Logo" width="56" height="56">
+            </div>
+            <h2>Pure Intelligence. Distilled.</h2>
+            <p class="text-secondary">How can Aether collaborate with you today?</p>
+          </div>
+
+          <!-- Prompt Suggestions -->
+          <div class="prompt-grid">
+            <button class="card card-interactive prompt-card" data-prompt="Design an elegant, secure distributed caching architecture using Redis and Node.js.">
+              <h4>Architect Distributed Cache</h4>
+              <p class="text-xs text-secondary">High throughput caching with TTL and eviction policies.</p>
+            </button>
+            <button class="card card-interactive prompt-card" data-prompt="Analyze the trade-offs between Monolithic, Microservices, and Modular Monolith architectures.">
+              <h4>System Design Trade-offs</h4>
+              <p class="text-xs text-secondary">Detailed comparison of architectural patterns.</p>
+            </button>
+            <button class="card card-interactive prompt-card" data-prompt="Write an executive summary and competitive analysis for an AI productivity product.">
+              <h4>Executive Strategic Brief</h4>
+              <p class="text-xs text-secondary">Strategic market positioning and defensibility.</p>
+            </button>
+            <button class="card card-interactive prompt-card" data-prompt="Explain quantum entanglement and Bell's inequality in intuitive terms.">
+              <h4>Quantum Physics Tutor</h4>
+              <p class="text-xs text-secondary">Step-by-step conceptual walkthrough with analogies.</p>
+            </button>
+          </div>
+        </div>
+
+        <!-- Messages Container -->
+        <div id="messages-container" class="messages-container" style="display: none;"></div>
+
+        <!-- Scroll to bottom button -->
+        <button id="scroll-bottom-btn" class="btn btn-secondary btn-icon scroll-bottom-btn" title="Scroll to latest">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+        </button>
+      </section>
+
+      <!-- Message Input Bar -->
+      <footer class="input-bar-container">
+        <!-- Attachments Preview Tray -->
+        <div id="attachments-tray" class="attachments-tray"></div>
+
+        <div class="input-bar">
+          <!-- File upload button -->
+          <input type="file" id="file-input" multiple style="display: none;">
+          <button id="attach-btn" class="btn btn-icon" title="Upload files (PDF, TXT, CSV, DOCX, Code)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+          </button>
+
+          <!-- Web search toggle -->
+          <button id="web-search-toggle" class="btn btn-icon search-toggle-btn" title="Toggle web search research mode">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </button>
+
+          <!-- Voice STT button -->
+          <button id="voice-input-btn" class="btn btn-icon voice-btn" title="Speech to text input">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+          </button>
+
+          <!-- Auto-resizing textarea -->
+          <textarea id="chat-input" class="chat-input" rows="1" placeholder="Ask Aether anything... (Enter to send, Shift+Enter for newline)"></textarea>
+
+          <!-- Send / Stop button -->
+          <button id="send-btn" class="btn btn-primary btn-icon send-btn" title="Send message">
+            <svg class="send-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+            <svg class="stop-icon" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="display: none;"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>
+          </button>
+        </div>
+
+        <div class="input-disclaimer">
+          Aether may produce inaccurate info. Verify important facts and code.
+        </div>
+      </footer>
+    </main>
+
+    <!-- Side Workspace / Artifacts Panel -->
+    <aside id="artifacts-panel" class="artifacts-panel">
+      <div class="artifacts-header">
+        <div class="artifacts-title">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          <span id="artifact-title-text">Workspace Artifact</span>
+        </div>
+        <div class="artifacts-actions">
+          <button id="artifact-copy-btn" class="btn btn-ghost btn-sm" title="Copy artifact contents">Copy</button>
+          <button id="close-artifacts-btn" class="btn btn-icon btn-sm" title="Close panel">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+      </div>
+      <div id="artifact-body" class="artifact-body">
+        <div class="artifact-empty-state">No artifact currently selected. Ask Aether to create code or documents.</div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Settings Modal -->
+  <div id="settings-modal" class="modal-backdrop">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Settings</h3>
+        <button id="close-settings-modal-btn" class="btn btn-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="settings-group">
+          <label class="settings-label" for="setting-style">Response Style</label>
+          <select id="setting-style" class="input">
+            <option value="concise">Concise (Direct, tight answers)</option>
+            <option value="detailed">Detailed (Comprehensive, in-depth)</option>
+            <option value="beginner">Beginner-Friendly (Intuitive, plain English)</option>
+            <option value="professional">Professional (Executive, formal)</option>
+            <option value="creative">Creative (Expressive, dynamic)</option>
+          </select>
+        </div>
+        <div class="settings-group" style="margin-top: var(--space-4);">
+          <label class="settings-label" for="setting-custom-instructions">Custom System Instructions</label>
+          <textarea id="setting-custom-instructions" class="input" rows="4" placeholder="Specific instructions for how Aether should respond to you..."></textarea>
+        </div>
+        <div class="settings-group" style="margin-top: var(--space-4);">
+          <label class="settings-label" for="setting-server-url">Backend Server URL</label>
+          <input type="text" id="setting-server-url" class="input" placeholder="http://localhost:3000 (leave blank for default)">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button id="save-settings-btn" class="btn btn-primary">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Memory Modal -->
+  <div id="memory-modal" class="modal-backdrop">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>User Memory & Personalization</h3>
+        <button id="close-memory-modal-btn" class="btn btn-icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p class="text-sm text-secondary">
+          Memory stores non-sensitive preferences across sessions. You can add, review, or clear memories anytime.
+        </p>
+        <div style="display: flex; gap: var(--space-2); margin: var(--space-4) 0;">
+          <input type="text" id="new-memory-input" class="input" placeholder="e.g., I prefer TypeScript over JavaScript">
+          <button id="add-memory-btn" class="btn btn-secondary">Add</button>
+        </div>
+        <div id="memory-list" class="memory-list" style="margin-top: var(--space-3);"></div>
+      </div>
+      <div class="modal-footer">
+        <button id="clear-all-memory-btn" class="btn btn-danger btn-sm">Clear All Memory</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Website Script Module -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

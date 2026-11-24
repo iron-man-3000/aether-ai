@@ -1,0 +1,154 @@
+/**
+ * Input Bar & Composer Styles with Fluid Animations
+ */
+.input-bar-container {
+  padding: 0 var(--space-4) var(--space-4);
+  max-width: var(--chat-max-width);
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: var(--z-header);
+}
+
+.attachments-tray {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+
+@keyframes chipPopIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.attachment-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background-color: var(--color-surface-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 4px 8px;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-primary);
+  animation: chipPopIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+  transition: transform 0.15s ease, border-color 0.15s ease;
+}
+
+.attachment-chip:hover {
+  border-color: #555555;
+  transform: translateY(-1px);
+}
+
+.attachment-chip .remove-file-btn {
+  cursor: pointer;
+  color: var(--color-text-muted);
+  transition: color 0.15s ease, transform 0.15s ease;
+}
+
+.attachment-chip .remove-file-btn:hover {
+  color: var(--color-danger);
+  transform: scale(1.15);
+}
+
+.input-bar {
+  background-color: var(--color-surface-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: flex-end;
+  padding: var(--space-2) var(--space-3);
+  gap: var(--space-2);
+  box-shadow: var(--shadow-sm);
+  transition: border-color 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.input-bar:focus-within {
+  border-color: #666666;
+  background-color: var(--color-surface-elevated);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+.chat-input {
+  flex: 1;
+  max-height: 200px;
+  min-height: 24px;
+  padding: 4px 0;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-primary);
+  background: transparent;
+  border: none;
+  outline: none;
+  overflow-y: auto;
+}
+
+.chat-input::placeholder {
+  color: var(--color-text-muted);
+  transition: opacity 0.2s ease;
+}
+
+.chat-input:focus::placeholder {
+  opacity: 0.5;
+}
+
+.search-toggle-btn {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.search-toggle-btn.active {
+  color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: scale(1.05);
+}
+
+.voice-btn {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.voice-btn.listening {
+  color: var(--color-danger);
+  animation: pulse-recording 1.2s infinite ease-in-out;
+}
+
+@keyframes pulse-recording {
+  0% { transform: scale(1); opacity: 1; filter: drop-shadow(0 0 0 rgba(229, 72, 77, 0)); }
+  50% { transform: scale(1.18); opacity: 0.8; filter: drop-shadow(0 0 8px rgba(229, 72, 77, 0.6)); }
+  100% { transform: scale(1); opacity: 1; filter: drop-shadow(0 0 0 rgba(229, 72, 77, 0)); }
+}
+
+.send-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+  padding: 0;
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.18s ease;
+}
+
+.send-btn:hover {
+  transform: scale(1.08);
+}
+
+.send-btn:active {
+  transform: scale(0.92);
+}
+
+.input-disclaimer {
+  text-align: center;
+  font-size: var(--font-size-xs);
+  color: var(--color-text-muted);
+  margin-top: var(--space-2);
+  transition: opacity 0.2s ease;
+}

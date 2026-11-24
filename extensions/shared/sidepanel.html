@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aether AI Side Panel</title>
+  <link rel="stylesheet" href="../../shared/css/variables.css">
+  <link rel="stylesheet" href="../../shared/css/reset.css">
+  <link rel="stylesheet" href="../../shared/css/typography.css">
+  <link rel="stylesheet" href="../../shared/css/components.css">
+  <link rel="stylesheet" href="popup.css">
+  <style>
+    body {
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
+</head>
+<body>
+  <div class="popup-container">
+    <header class="popup-header">
+      <div class="brand">
+        <img src="../../shared/assets/logo.svg" alt="Aether" width="22" height="22">
+        <span class="brand-title">Aether Side Panel</span>
+      </div>
+      <div class="header-actions">
+        <button id="ext-new-chat-btn" class="btn btn-icon btn-icon-sm" title="New Chat">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <div id="page-context-banner" class="page-context-banner" style="display: none;">
+      <span id="page-context-label" class="text-xs text-secondary">Webpage context active</span>
+      <button id="dismiss-context-btn" class="btn-dismiss">&times;</button>
+    </div>
+
+    <main id="popup-messages" class="popup-messages">
+      <div id="popup-empty-state" class="popup-empty-state">
+        <div class="empty-icon"><img src="../../shared/assets/logo.svg" width="40" height="40" alt="Aether"></div>
+        <h4>Aether Side Panel</h4>
+        <p class="text-xs text-secondary">Chat alongside your active browsing session.</p>
+        <div class="quick-prompts">
+          <button class="btn btn-secondary btn-sm quick-prompt-btn" data-prompt="Summarize the key points of the current webpage.">Summarize Page</button>
+          <button class="btn btn-secondary btn-sm quick-prompt-btn" data-prompt="Explain the technical concepts on this page.">Explain Concepts</button>
+        </div>
+      </div>
+    </main>
+
+    <footer class="popup-footer">
+      <div class="popup-input-bar">
+        <textarea id="popup-input" class="popup-input" rows="1" placeholder="Ask Aether..."></textarea>
+        <button id="popup-send-btn" class="btn btn-primary btn-icon btn-icon-sm">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg>
+        </button>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

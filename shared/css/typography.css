@@ -1,0 +1,168 @@
+/**
+ * Typography definitions and markdown rendering styles for Aether AI
+ */
+
+h1, .h1 {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-4);
+}
+
+h2, .h2 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--color-text-primary);
+  margin-top: var(--space-6);
+  margin-bottom: var(--space-3);
+}
+
+h3, .h3 {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-tight);
+  color: var(--color-text-primary);
+  margin-top: var(--space-4);
+  margin-bottom: var(--space-2);
+}
+
+h4, .h4 {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+p {
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-primary);
+  margin-bottom: var(--space-3);
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-xs {
+  font-size: var(--font-size-xs);
+}
+
+.text-sm {
+  font-size: var(--font-size-sm);
+}
+
+.text-mono {
+  font-family: var(--font-family-mono);
+}
+
+/* Inline code */
+code:not([class*="language-"]) {
+  font-family: var(--font-family-mono);
+  font-size: 0.88em;
+  background-color: var(--color-surface-secondary);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-xs);
+}
+
+/* Code blocks wrapper */
+pre {
+  position: relative;
+  margin: var(--space-4) 0;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background-color: var(--color-surface-secondary);
+  overflow: hidden;
+}
+
+pre code {
+  display: block;
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+  line-height: 1.6;
+  padding: var(--space-4);
+  overflow-x: auto;
+  color: var(--color-text-primary);
+}
+
+/* Markdown lists */
+.prose ul {
+  list-style: disc;
+  padding-left: var(--space-6);
+  margin-bottom: var(--space-4);
+}
+
+.prose ol {
+  list-style: decimal;
+  padding-left: var(--space-6);
+  margin-bottom: var(--space-4);
+}
+
+.prose li {
+  margin-bottom: var(--space-2);
+  line-height: var(--line-height-normal);
+}
+
+/* Blockquotes */
+blockquote {
+  border-left: 2px solid var(--color-border-focus);
+  padding-left: var(--space-4);
+  margin: var(--space-4) 0;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+/* Markdown tables */
+.prose table {
+  margin: var(--space-4) 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.prose th,
+.prose td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  text-align: left;
+  font-size: var(--font-size-sm);
+}
+
+.prose th {
+  background-color: var(--color-surface-elevated);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-primary);
+}
+
+.prose tr:last-child td {
+  border-bottom: none;
+}
+
+.prose tr:nth-child(even) td {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* Links */
+.prose a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity var(--transition-fast);
+}
+
+.prose a:hover {
+  opacity: 0.8;
+}

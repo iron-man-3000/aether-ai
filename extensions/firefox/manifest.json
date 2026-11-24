@@ -1,0 +1,36 @@
+{
+  "manifest_version": 2,
+  "name": "Aether AI — Minimalist AI Chatbot",
+  "version": "1.0.0",
+  "description": "Pure intelligence, distilled. Minimalist AI assistant for your Firefox tabs and sidebar.",
+  "permissions": [
+    "storage",
+    "contextMenus",
+    "activeTab",
+    "http://localhost:3000/*"
+  ],
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "browser_action": {
+    "default_popup": "../shared/popup.html",
+    "default_title": "Aether AI"
+  },
+  "sidebar_action": {
+    "default_title": "Aether AI",
+    "default_panel": "../shared/sidepanel.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["../shared/content-script.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "../icons/icon-16.png",
+    "32": "../icons/icon-32.png",
+    "48": "../icons/icon-48.png",
+    "128": "../icons/icon-128.png"
+  }
+}

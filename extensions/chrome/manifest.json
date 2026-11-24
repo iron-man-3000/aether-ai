@@ -1,0 +1,40 @@
+{
+  "manifest_version": 3,
+  "name": "Aether AI — Minimalist AI Chatbot",
+  "version": "1.0.0",
+  "description": "Pure intelligence, distilled. Minimalist AI assistant for your browser tabs, selection menus, and side panel.",
+  "permissions": [
+    "storage",
+    "contextMenus",
+    "activeTab",
+    "scripting",
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "http://localhost:3000/*"
+  ],
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "../shared/popup.html",
+    "default_title": "Aether AI"
+  },
+  "side_panel": {
+    "default_path": "../shared/sidepanel.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["../shared/content-script.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "icons": {
+    "16": "../icons/icon-16.png",
+    "32": "../icons/icon-32.png",
+    "48": "../icons/icon-48.png",
+    "128": "../icons/icon-128.png"
+  }
+}

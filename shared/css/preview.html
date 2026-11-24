@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aether AI — Design System Preview</title>
+  <link rel="stylesheet" href="variables.css">
+  <link rel="stylesheet" href="reset.css">
+  <link rel="stylesheet" href="typography.css">
+  <link rel="stylesheet" href="components.css">
+  <style>
+    body {
+      padding: var(--space-8);
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .preview-section {
+      margin-bottom: var(--space-10);
+      padding-bottom: var(--space-8);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .preview-section-title {
+      font-size: var(--font-size-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-4);
+    }
+    .palette-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: var(--space-3);
+    }
+    .color-swatch {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: var(--space-3);
+      background-color: var(--color-surface-secondary);
+    }
+    .color-chip {
+      height: 48px;
+      border-radius: var(--radius-xs);
+      margin-bottom: var(--space-2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .component-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-3);
+    }
+  </style>
+</head>
+<body>
+
+  <header style="display: flex; align-items: center; gap: var(--space-4); margin-bottom: var(--space-8);">
+    <div style="width: 44px; height: 44px;">
+      <img src="../assets/logo.svg" alt="Aether AI Logo">
+    </div>
+    <div>
+      <h1>Aether AI — Design System</h1>
+      <p class="text-secondary text-sm">Strict Minimalist Monochromatic Tokens & UI Components</p>
+    </div>
+  </header>
+
+  <!-- Color Palette -->
+  <section class="preview-section">
+    <div class="preview-section-title">Color Palette Tokens</div>
+    <div class="palette-grid">
+      <div class="color-swatch">
+        <div class="color-chip" style="background: var(--color-bg);"></div>
+        <div class="text-xs text-mono">--color-bg</div>
+        <div class="text-xs text-muted">#0A0A0A</div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip" style="background: var(--color-sidebar);"></div>
+        <div class="text-xs text-mono">--color-sidebar</div>
+        <div class="text-xs text-muted">#141414</div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip" style="background: var(--color-surface-secondary);"></div>
+        <div class="text-xs text-mono">--surface-sec</div>
+        <div class="text-xs text-muted">#1B1B1B</div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip" style="background: var(--color-surface-elevated);"></div>
+        <div class="text-xs text-mono">--surface-elev</div>
+        <div class="text-xs text-muted">#222222</div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip" style="background: var(--color-border);"></div>
+        <div class="text-xs text-mono">--color-border</div>
+        <div class="text-xs text-muted">#2A2A2A</div>
+      </div>
+      <div class="color-swatch">
+        <div class="color-chip" style="background: var(--color-accent);"></div>
+        <div class="text-xs text-mono" style="color: var(--color-text-primary);">--color-accent</div>
+        <div class="text-xs text-muted">#FFFFFF</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Buttons & Interactive States -->
+  <section class="preview-section">
+    <div class="preview-section-title">Buttons & Actions</div>
+    <div class="component-row">
+      <button class="btn btn-primary">Primary Action</button>
+      <button class="btn btn-secondary">Secondary Action</button>
+      <button class="btn btn-ghost">Ghost Action</button>
+      <button class="btn btn-danger">Danger Action</button>
+      <button class="btn btn-icon" data-tooltip="Copy code">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      </button>
+      <button class="btn btn-primary" disabled>Disabled State</button>
+    </div>
+  </section>
+
+  <!-- Badges & Mode Indicators -->
+  <section class="preview-section">
+    <div class="preview-section-title">Badges & Selectors</div>
+    <div class="component-row">
+      <span class="badge">General</span>
+      <span class="badge badge-active">Coding Assistant</span>
+      <span class="badge">Research</span>
+      <span class="badge">GPT-4o</span>
+    </div>
+  </section>
+
+  <!-- Typography & Markdown -->
+  <section class="preview-section">
+    <div class="preview-section-title">Typography & Markdown Elements</div>
+    <div class="prose">
+      <h2>Section Heading (H2)</h2>
+      <p>This is a paragraph of standard primary text. It demonstrates smooth line height and high-contrast readability against the dark background. You can also view <a href="#">an accessible hyperlink</a>.</p>
+      <p>Here is an example of an inline code fragment: <code>const engine = new ChatEngine();</code>.</p>
+      <pre><code>// Example ECMAScript module syntax
+export async function streamResponse(prompt, signal) {
+  const response = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ prompt }),
+    signal
+  });
+  return response.body;
+}</code></pre>
+      <blockquote>
+        "Minimalism is not a lack of something. It's simply the perfect amount of everything."
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- Cards -->
+  <section class="preview-section">
+    <div class="preview-section-title">Prompt Suggestion Cards</div>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: var(--space-4);">
+      <div class="card card-interactive">
+        <h4>Architect a scalable database</h4>
+        <p class="text-sm text-secondary" style="margin-top: var(--space-2);">Design schema and indexing strategy for high throughput.</p>
+      </div>
+      <div class="card card-interactive">
+        <h4>Explain quantum computing</h4>
+        <p class="text-sm text-secondary" style="margin-top: var(--space-2);">Clear explanation of qubits, superposition, and entanglement.</p>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

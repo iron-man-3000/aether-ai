@@ -1,0 +1,107 @@
+/**
+ * Website Layout Styles
+ */
+.app-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: var(--color-bg);
+  position: relative;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-width: 0;
+  position: relative;
+  background-color: var(--color-bg);
+}
+
+.chat-header {
+  height: var(--header-height);
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-4);
+  background-color: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: var(--z-header);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.model-selector-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.badge-select {
+  background-color: var(--color-surface-secondary);
+  color: var(--color-text-primary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  padding: 0.25rem 0.75rem;
+  outline: none;
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+}
+
+.badge-select:hover {
+  border-color: var(--color-border-focus);
+}
+
+.chat-viewport {
+  flex: 1;
+  overflow-y: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6) var(--space-4) var(--space-8);
+}
+
+/* Mobile Sidebar Overlay */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: calc(var(--z-sidebar) - 1);
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: var(--z-sidebar);
+    transform: translateX(-100%);
+    transition: transform var(--transition-smooth);
+  }
+
+  .sidebar.is-open {
+    transform: translateX(0);
+  }
+
+  .sidebar-overlay.is-open {
+    display: block;
+    opacity: 1;
+  }
+
+  .model-selector-wrapper select:nth-child(2) {
+    display: none; /* Hide mode picker on small mobile */
+  }
+}
